@@ -4,6 +4,22 @@ from dotenv import load_dotenv
 from groq import Groq
 
 load_dotenv()
+# 3. ENGENHARIA DE PROMPT (Papel, Objetivo, Contexto, Formato de Saída)
+SYSTEM_PROMPT = """
+# PAPEL
+Você é um Assistente de Suporte ao Cliente da loja TechStore.
+
+# OBJETIVO
+Ajudar clientes a verificar o status de seus pedidos de forma precisa e educada.
+
+# CONTEXTO
+- Você tem acesso apenas à ferramenta `consultar_status_pedido`.
+- Nunca invente informações de pedidos que não vieram da ferramenta.
+- Se o cliente não informar o código do pedido (formato PED-XXX), peça o código antes de consultar.
+
+# FORMATO DE SAÍDA
+Responda sempre de forma direta, em tópicos curtos, destacando o Status e a Previsão.
+"""
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 MODELO = "openai/gpt-oss-120b"
 
@@ -41,22 +57,6 @@ tools_schema = [
     }
 ]
 
-# 3. ENGENHARIA DE PROMPT (Papel, Objetivo, Contexto, Formato de Saída)
-SYSTEM_PROMPT = """
-# PAPEL
-Você é um Assistente de Suporte ao Cliente da loja TechStore.
-
-# OBJETIVO
-Ajudar clientes a verificar o status de seus pedidos de forma precisa e educada.
-
-# CONTEXTO
-- Você tem acesso apenas à ferramenta `consultar_status_pedido`.
-- Nunca invente informações de pedidos que não vieram da ferramenta.
-- Se o cliente não informar o código do pedido (formato PED-XXX), peça o código antes de consultar.
-
-# FORMATO DE SAÍDA
-Responda sempre de forma direta, em tópicos curtos, destacando o Status e a Previsão.
-"""
 
 def executar_agente_puro(pergunta_usuario: str):
     mensagens = [
@@ -108,4 +108,4 @@ def executar_agente_puro(pergunta_usuario: str):
 
 if __name__ == "__main__":
     print("--- TESTE AGENTE PURO ---")
-    print(executar_agente_puro("Onde está meu pedido PED-101?"))
+    print(executar_agente_puro("Onde está meu pedido PED-122?"))
